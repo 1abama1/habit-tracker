@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { useHabits } from './hooks/useHabits';
+import { useCompletions } from './hooks/useCompletions';
+import { useCalendar } from './hooks/useCalendar';
+import { Sidebar } from './components/Sidebar/Sidebar';
+import { Calendar } from './components/Calendar/Calendar';
+import { Stats } from './components/Stats/Stats';
+import styles from './App.module.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App: React.FC = () => {
+    const habits = useHabits();
+    const completions = useCompletions();
+    const calendar = useCalendar(completions.completions);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    return (
+        <div className={styles.app}>
+            <Sidebar
+                habits={habits.habits}
+                activeHabits={habits.activeHabits}
+                archivedHabits={habits.archivedHabits}
+                onAddHabit={habits.addHabit}
+                onUpdateHabit={habits.updateHabit}
+                onDeleteHabit={habits.deleteHabit}
+                onToggleActive={habits.toggleActive}
+                isCompleted={completions.isCompleted}
+                onToggleCompletion={completions.toggleCompletion}
+                completions={completions.completions}
+            />
 
-export default App
+            <main className={styles.main}>
+
+                <Calendar
+                    currentDate={calendar.currentDate}
+                    calendarDays={calendar.calendarDays}
+                    activeHabits={habits.activeHabits}
+                    onPrevMonth={calendar.prevMonth}
+                    onNextMonth={calendar.nextMonth}
+                    onToday={calendar.goToToday}
+                    onToggleCompletion={completions.toggleCompletion}
+                    isCompleted={completions.isCompleted}
+                />
+
+                <Stats
+                    habits={habits.habits}
+                    completions={completions.completions}
+                />
+            </main>
+        </div>
+    );
+};

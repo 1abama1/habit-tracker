@@ -1,0 +1,68 @@
+.day {
+    min-height: 100px;
+    padding: 10px 8px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.day:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.day.other {
+    opacity: 0.35;
+    background: var(--bg-primary);
+}
+
+.day.other:hover {
+    opacity: 0.6;
+}
+
+.date {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    padding: 2px 0;
+}
+
+.day.other .date {
+    color: var(--text-muted);
+}
+
+.dot {
+    width: 100%;
+    height: 5px;
+    border: none;
+    margin-bottom: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    opacity: 0.8;
+}
+
+.dot:hover {
+    height: 6px;
+    opacity: 1;
+    transform: scaleX(1.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dot:active {
+    transform: scaleX(0.95);
+}
+
+.dot:last-child {
+    margin-bottom: 0;
+}

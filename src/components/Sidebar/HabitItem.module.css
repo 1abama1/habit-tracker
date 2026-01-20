@@ -1,0 +1,105 @@
+.item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-left: 3px solid;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.item:hover {
+    background: var(--bg-elevated);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-hover);
+}
+
+.check {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 50%;
+    border: 2.5px solid var(--border);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.check:hover {
+    border-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.check::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform var(--transition-base);
+}
+
+.check[style*="background"]::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.streak {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    background: var(--bg-secondary);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+.actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0.6;
+    transition: opacity var(--transition-base);
+}
+
+.item:hover .actions {
+    opacity: 1;
+}
+
+.actions button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.actions button:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border);
+    transform: scale(1.1);
+}
