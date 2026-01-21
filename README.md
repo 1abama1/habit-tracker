@@ -1,73 +1,452 @@
-# React + TypeScript + Vite
+# 🎯 Habit Tracker - Smart Habit Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-18.x-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-Currently, two official plugins are available:
+Современный трекер привычек, построенный на **React + TypeScript** с чистой архитектурой и LocalStorage для хранения данных.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Основные возможности
 
-## React Compiler
+- ✅ **Управление привычками**: создание, редактирование, архивирование и удаление
+- 📅 **Интерактивный календарь**: визуализация выполнения привычек по дням
+- 🔥 **Система серий (streaks)**: отслеживание текущих и лучших серий выполнения
+- 📊 **Детальная статистика**: процент выполнения, общее количество, прогресс-бары
+- 🎨 **8 цветовых тем** для каждой привычки
+- 🌓 **Dark/Light режимы**
+- 📱 **Адаптивный дизайн**
+- 💾 **Автосохранение** в LocalStorage
+- 🚀 **Без бэкенда** - работает полностью на клиенте
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎯 Типы привычек
 
-## Expanding the ESLint configuration
+### Daily (Ежедневные)
+Привычки, которые нужно выполнять каждый день.
+- Серия считается по дням подряд
+- Прерывается, если пропустить день
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Weekly (Еженедельные)
+Привычки с целевым количеством выполнений в неделю (1-7 раз).
+- Серия считается по неделям, где достигнута цель
+- Гибкость: можно выполнять в любые дни недели
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🏗️ Архитектура
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/          # React компоненты
+│   ├── Sidebar/        # Боковая панель с привычками
+│   ├── Calendar/       # Календарь выполнений
+│   └── Stats/          # Статистика
+├── hooks/              # Custom React hooks
+│   ├── useHabits.ts
+│   ├── useCompletions.ts
+│   ├── useCalendar.ts
+│   └── useTheme.ts
+├── storage/            # Работа с LocalStorage
+│   └── habitStorage.ts
+├── types/              # TypeScript типы
+│   └── index.ts
+├── utils/              # Вспомогательные функции
+│   ├── dateUtils.ts
+│   └── streakCalculator.ts
+├── App.tsx
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Архитектурные принципы
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Разделение ответственности**
+- UI компоненты не содержат бизнес-логику
+- Вся логика инкапсулирована в custom hooks
+- Storage layer изолирован от компонентов
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Type-Safety**
+- Строгая типизация TypeScript
+- Все интерфейсы определены в `types/index.ts`
+
+**Производительность**
+- Использование `useMemo` и `useCallback` где необходимо
+- Оптимизированные ререндеры компонентов
+
+## 🚀 Быстрый старт
+
+### Установка
+
+```bash
+# Клонировать репозиторий
+git clone https://github.com/yourusername/habit-tracker.git
+cd habit-tracker
+
+# Установить зависимости
+npm install
+
+# Запустить dev сервер
+npm run dev
 ```
+
+### Сборка для production
+
+```bash
+npm run build
+```
+
+Результат будет в папке `dist/`.
+
+## 📦 Зависимости
+
+```json
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.0"
+  }
+}
+```
+
+**Важно**: Приложение не использует внешние библиотеки для дат (date-fns, moment) - все функции реализованы вручную в `utils/dateUtils.ts`.
+
+## 🎨 Структура данных
+
+### Habit (Привычка)
+
+```typescript
+interface Habit {
+  id: string;              // UUID
+  title: string;           // Название
+  color: string;           // HEX цвет (#FF6B6B)
+  frequency: 'daily' | 'weekly';
+  targetCount: number;     // Для weekly: 1-7
+  createdAt: string;       // ISO datetime
+  isActive: boolean;       // Активна или в архиве
+}
+```
+
+### Completion (Выполнение)
+
+```typescript
+interface Completion {
+  habitId: string;         // ID привычки
+  date: string;            // YYYY-MM-DD
+  count: number;           // Количество выполнений
+}
+```
+
+### StreakInfo (Серия)
+
+```typescript
+interface StreakInfo {
+  current: number;         // Текущая серия
+  best: number;            // Лучшая серия
+}
+```
+
+## 📊 LocalStorage
+
+Приложение использует 3 ключа:
+
+```
+habits-tracker-habits       # Массив привычек
+habits-tracker-completions  # Массив выполнений
+habits-tracker-theme        # 'light' | 'dark'
+```
+
+### Экспорт/Импорт данных
+
+```typescript
+// Экспорт
+const data = habitStorage.exportData();
+// Скачать как JSON файл
+
+// Импорт
+const success = habitStorage.importData(jsonString);
+```
+
+## 🎯 Использование
+
+### 1. Создание привычки
+
+1. Нажми **"+ New Habit"**
+2. Введи название
+3. Выбери цвет
+4. Выбери частоту (Daily/Weekly)
+5. Для Weekly укажи цель (сколько раз в неделю)
+6. Нажми **"Add"**
+
+### 2. Отметка выполнения
+
+**В боковой панели:**
+- Кликни на кружок слева от привычки
+
+**В календаре:**
+- Кликни на цветную полоску в нужном дне
+
+### 3. Редактирование привычки
+
+1. Нажми ✏️ рядом с привычкой
+2. Измени параметры
+3. Нажми **"Update"**
+
+### 4. Архивирование
+
+- Нажми 📦 чтобы отправить в архив
+- Архивные привычки скрыты, но данные сохранены
+- Нажми 📤 чтобы восстановить
+
+### 5. Удаление
+
+- Нажми 🗑️ и подтверди удаление
+- **Внимание**: Все данные будут потеряны!
+
+## 🔥 Расчёт серий (Streaks)
+
+### Daily привычки
+
+**Текущая серия:**
+- Считается количество дней подряд с выполнением
+- Прерывается, если последнее выполнение не сегодня/вчера
+- Пример: выполнили 5 дней подряд → streak = 5
+
+**Лучшая серия:**
+- Максимальная серия за всё время
+- Обновляется автоматически
+
+### Weekly привычки
+
+**Текущая серия:**
+- Считается количество недель подряд, где достигнута цель
+- Неделя начинается с понедельника
+- Пример: цель 3x/неделю, выполнено 3+ раза → неделя засчитана
+
+**Лучшая серия:**
+- Максимальное количество недель подряд
+
+## 🎨 Кастомизация
+
+### Цветовая схема
+
+Цвета определены в CSS переменных (`App.module.css`):
+
+```css
+:root[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border: #dee2e6;
+  --primary: #0d6efd;
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #f8f9fa;
+  --text-secondary: #adb5bd;
+  --border: #495057;
+  --primary: #0d6efd;
+}
+```
+
+### Добавление новых цветов для привычек
+
+В `HabitForm.tsx`:
+
+```typescript
+const COLORS = [
+  '#FF6B6B', // Красный
+  '#4ECDC4', // Бирюзовый
+  '#45B7D1', // Синий
+  // Добавь свои цвета
+  '#YOUR_COLOR',
+];
+```
+
+## 📱 Адаптивность
+
+Приложение адаптируется под разные размеры экранов:
+
+- **Desktop**: полный функционал, sidebar + calendar + stats
+- **Tablet**: оптимизированная сетка календаря
+- **Mobile**: вертикальный layout (в разработке)
+
+## 🧪 Тестирование
+
+```bash
+# Unit тесты (TODO)
+npm run test
+
+# E2E тесты (TODO)
+npm run test:e2e
+```
+
+## 🚀 Roadmap
+
+### v1.1 - Near Future
+- [ ] Экспорт/импорт данных (JSON)
+- [ ] Поиск и фильтрация привычек
+- [ ] Категории привычек
+- [ ] Drag & Drop для сортировки
+
+### v1.2 - Medium Term
+- [ ] Графики и визуализация (recharts)
+- [ ] Heatmap календарь (как у GitHub)
+- [ ] Заметки к дням
+- [ ] Напоминания (Notifications API)
+
+### v2.0 - Long Term
+- [ ] PWA с offline-first
+- [ ] Синхронизация через backend
+- [ ] Мобильное приложение
+- [ ] Социальные функции
+- [ ] Gamification (достижения, уровни)
+
+## 🤝 Вклад в проект
+
+Приветствуются любые улучшения!
+
+1. Fork проекта
+2. Создай feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit изменения (`git commit -m 'Add some AmazingFeature'`)
+4. Push в branch (`git push origin feature/AmazingFeature`)
+5. Открой Pull Request
+
+### Правила кода
+
+- TypeScript strict mode
+- ESLint + Prettier
+- Компоненты в отдельных файлах
+- CSS Modules для стилей
+- Комментарии на русском/английском
+
+## 📄 Лицензия
+
+MIT License - см. [LICENSE](LICENSE)
+
+## 👨‍💻 Автор
+
+**Your Name**
+- GitHub: [@yourusername](https://github.com/yourusername)
+- Email: your.email@example.com
+
+## 🙏 Благодарности
+
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- Вдохновение: Habitica, Streaks, Loop Habit Tracker
+
+---
+
+## 📚 Дополнительная документация
+
+### Полезные файлы
+
+- `ARCHITECTURE.md` - детальное описание архитектуры
+- `CONTRIBUTING.md` - гайд для контрибьюторов
+- `CHANGELOG.md` - история изменений
+
+### API Reference
+
+#### useHabits Hook
+
+```typescript
+const {
+  habits,           // Все привычки
+  activeHabits,     // Активные привычки
+  archivedHabits,   // Архивные привычки
+  isLoading,        // Статус загрузки
+  addHabit,         // Добавить привычку
+  updateHabit,      // Обновить привычку
+  deleteHabit,      // Удалить привычку
+  toggleActive,     // Архивировать/разархивировать
+  getHabitById,     // Получить по ID
+} = useHabits();
+```
+
+#### useCompletions Hook
+
+```typescript
+const {
+  completions,              // Все выполнения
+  isLoading,                // Статус загрузки
+  toggleCompletion,         // Переключить выполнение
+  getHabitCompletions,      // Получить выполнения привычки
+  isCompleted,              // Проверить выполнение
+  getCompletionCount,       // Количество выполнений
+  deleteHabitCompletions,   // Удалить все выполнения
+} = useCompletions();
+```
+
+#### useCalendar Hook
+
+```typescript
+const {
+  currentDate,      // Текущая дата просмотра
+  calendarDays,     // Массив дней для отображения
+  nextMonth,        // Следующий месяц
+  prevMonth,        // Предыдущий месяц
+  goToToday,        // Вернуться к сегодня
+  goToDate,         // Перейти к дате
+} = useCalendar(completions);
+```
+
+#### useTheme Hook
+
+```typescript
+const {
+  theme,            // 'light' | 'dark'
+  toggleTheme,      // Переключить тему
+  setLightTheme,    // Установить светлую
+  setDarkTheme,     // Установить тёмную
+  isDark,           // boolean
+} = useTheme();
+```
+
+### Примеры использования
+
+#### Создание привычки программно
+
+```typescript
+const { addHabit } = useHabits();
+
+addHabit({
+  title: 'Morning Exercise',
+  color: '#4ECDC4',
+  frequency: 'daily',
+  targetCount: 1,
+});
+```
+
+#### Получение статистики
+
+```typescript
+import { calculateHabitStats } from './utils/streakCalculator';
+
+const stats = calculateHabitStats(habit, completions);
+// {
+//   completionRate: 85,
+//   totalCompletions: 42,
+//   streak: { current: 7, best: 14 }
+// }
+```
+
+#### Работа с датами
+
+```typescript
+import { formatDate, parseDate, isToday } from './utils/dateUtils';
+
+const dateStr = formatDate(new Date()); // '2025-01-21'
+const date = parseDate('2025-01-21');   // Date object
+const today = isToday(date);            // true/false
+```
+
+---
+
+**Made with ❤️ and TypeScript**
